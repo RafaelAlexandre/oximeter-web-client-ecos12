@@ -2,10 +2,9 @@ import styled from "styled-components";
 
 export const HomePage = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
 
   .loading {
     position: fixed;
@@ -24,9 +23,30 @@ export const GraphTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
   
-  .h1 {
-    color: #fff;
+  span {
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    color: #DCDCDC;
+    font-weight: normal;
+  }
+
+`;
+
+export const CommonText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 35px;
+  padding-bottom: 15px;
+  
+  span {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    color: #DCDCDC;
+    font-weight: normal;
   }
 
 `;
