@@ -1,4 +1,5 @@
 body {
-    background: #0d1117;
+    background: var(--color-background);
     color: #e1e1f6;
+    margin: 0;
 }

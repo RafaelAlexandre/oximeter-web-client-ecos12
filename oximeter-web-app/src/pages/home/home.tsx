@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
 import { getLastTenMeasures } from "../../service/requests";
-import { HomePage, GraphTitle, CommonText } from "./styles";
+import { HomePage, GraphTitle, CommonText, HomeLeft, HomeRight } from "./styles";
 import {
   ChartJsBpmItem,
   ChartJsItem,
@@ -98,102 +99,121 @@ export function Home() {
         <div className="loading"></div>
       ) : (
         <>
-          <GraphTitle>
-            <span>Dados relativos à {localeDateString}</span>
-          </GraphTitle>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <ResponsiveContainer width="50%" height={200}>
-              <LineChart
-                width={950}
-                height={200}
-                data={chartJsObject}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="bpm"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                />
-                <Line type="monotone" dataKey="spo2" stroke="#82ca9d" />
-              </LineChart>
-            </ResponsiveContainer>
+        <HomeLeft>
+
+        </HomeLeft>
+          <HomeRight>
+            <GraphTitle>
+              <span>
+                Últimas 20 medidas atualizadas relativas à {localeDateString}
+              </span>
+            </GraphTitle>
+            <div style={{ flex: "1 1 auto" }}>
+              <AutoSizer>
+                {({ width }) => (
+                  <LineChart
+                    width={width}
+                    height={200}
+                    data={chartJsObject}
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 0,
+                      bottom: 0,
+                    }}
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip labelStyle={{ color: "var(--color-tooltip-label-color)" }}/>
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="bpm"
+                      stroke="var(--color-graph-bpm-color)"
+                      activeDot={{ r: 8 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="spo2"
+                      stroke="var(--color-graph-spo2-color)"
+                      activeDot={{ r: 8 }}
+                    />
+
+                  </LineChart>
+                )}
+              </AutoSizer>
+            </div>
             <CommonText>
               <span>Dados de BPM individualizados</span>
             </CommonText>
-            <ResponsiveContainer width="50%" height={200}>
-              <AreaChart
-                width={500}
-                height={200}
-                data={chartJsBpmObject}
-                syncId="anyId"
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Area
-                  type="monotone"
-                  dataKey="bpm"
-                  stroke="#8884d8"
-                  fill="#8884d8"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+            <div style={{ flex: "1 1 auto" }}>
+              <AutoSizer>
+                {({ width }) => (
+                  <AreaChart
+                    width={width}
+                    height={200}
+                    data={chartJsBpmObject}
+                    syncId="anyId"
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 0,
+                      bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip labelStyle={{ color: "var(--color-tooltip-label-color)" }}/>
+                    <Area
+                      type="monotone"
+                      dataKey="bpm"
+                      stroke="var(--color-graph-bpm-color)"
+                      fill="var(--color-graph-bpm-color)"
+                    />
+                  </AreaChart>
+                )}
+              </AutoSizer>
+            </div>
+
             <CommonText>
               <span>Dados de Spo2 individualizados</span>
             </CommonText>
+            <div style={{ flex: "1 1 auto" }}>
+              <AutoSizer>
+                {({ width }) => (
+                  <AreaChart
+                    width={width}
+                    height={200}
+                    data={chartJsSpo2Object}
+                    syncId="anyId"
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 0,
+                      bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip labelStyle={{ color: "var(--color-tooltip-label-color)" }}/>
+                    <Area
+                      type="monotone"
+                      dataKey="spo2"
+                      stroke="var(--color-graph-spo2-color)"
+                      fill="var(--color-graph-spo2-color)"
+                    />
+                  </AreaChart>
+                )}
+              </AutoSizer>
+            </div>
+          </HomeRight>
 
-            <ResponsiveContainer width="50%" height={200}>
-              <AreaChart
-                width={500}
-                height={200}
-                data={chartJsSpo2Object}
-                syncId="anyId"
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Area
-                  type="monotone"
-                  dataKey="spo2"
-                  stroke="#82ca9d"
-                  fill="#82ca9d"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
         </>
       )}
     </HomePage>
